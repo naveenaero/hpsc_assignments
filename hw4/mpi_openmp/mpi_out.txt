@@ -1,0 +1,8 @@
+C[first]=1000.000000
+C[last]=1000.000000
+
+ Min Time = 1.43554
+
+ Max Time = 2.19297
+
+ Avg Time = 2.00219

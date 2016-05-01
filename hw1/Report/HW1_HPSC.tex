@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{High Performance Scientific Computing \\ Homework Assignment 1}
+% \subtitle{Homework Assignment 1}
+\author{Naveen Himthani (120010001)}
+\date{Spring 2015-16}
+
+\usepackage{setspace}
+\usepackage{amsmath,amsfonts,amssymb,amscd,amsthm,xspace}
+\usepackage{titlesec}
+\usepackage{vmargin}
+\usepackage{fancyhdr}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multirow}
+\usepackage{multicol}
+\usepackage{url}
+\usepackage{tabularx}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{booktabs}
+\usepackage{rotating}
+\usepackage{listings}
+\usepackage{bm}
+\usepackage{float}
+\begin{document}
+
+
+\maketitle
+
+\section{Question 1}
+Using Amadahl's law,
+\begin{equation}
+S(N) = \frac{1}{(1-P) + \frac{P}{N}}
+\end{equation}
+where for the given problem $(1-P)$ = 20$\%$ \\
+
+\begin{enumerate}
+\item Maximum speed-up achievable will be when $N=\infty$, therefore  \\
+\begin{align}
+S = \frac{1}{0.2 + 0} \\
+\bf{S = 5}
+\end{align}
+\item For a desirable speed-up of $S=50$, the maximum serial portion of the algorithm can again be calculated when $N=\infty$ \\
+\begin{align}
+50 = \frac{1}{(1-P) + 0} \\
+1-P = 0.02
+\end{align}
+therefore, the \textbf{serial portion of the algorithm is \bf{$2\%$}}
+
+\section{Question 2}
+Assumption $\Rightarrow$ sizeof(int) = 4 bytes
+Total size of the data in main memory = $\frac{1024\times1024\times4}{1024} =  4096$ Kb
+\subsection{CPU cycles in C program}
+Since data is stored in the row-major format in C and the algorithm is written such that for each row a column is scanned, the data is read in a sequential manner without having to fetch large chunks of data for reading the next element as the algorithm requires.  
+\begin{enumerate}
+\item Cost of fetching 4096 Kb from main memory to cache = $4096\times150 = 614400$ CPU Cycles
+\item Cost of fetching 1 Kb from Cache to CPU = $\frac{1024\times1}{8} = 128$ CPU Cycles
+\item Therefore total cost of the algorithm = $614400+ 128\times4096 = 1138688$ CPU Cycles 
+\end{enumerate}
+
+\subsection{CPU cycles in FORTRAN program}
+Since data is stored in the column-major format in FORTRAN and the algorithm is written such that for each row a column is scanned, the data is not read in a sequential manner i.e. it has to unnecessarily fetch large chunks of data for reading next element.
+\begin{enumerate}
+\item For accessing each element from the array in the order required by the algorithm, the cache will have to access 1 Kb data (256 integers) from main memory at a time which will incur 150 CPU cycles. Out of those 256 integers, the CPU only needs the first element every time for which it will access the first 2 elements (8 bytes) incurring 1 CPU cycle. In short, for getting 1 integer from the main memory to CPU costs $150+1=151$ CPU cycles.
+\item This has to be done for all $1024\times1024$ elements of the array incurring $1024\times1024\times151 = 158334976$ CPU Cycles.
+\end{enumerate}  
+
+
+
+
+
+\end{document}
